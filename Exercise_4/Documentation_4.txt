@@ -1,68 +1,10 @@
 ﻿Which SOLID principles are being violated?
 1. Liskov Substitution Principle
 2. Interface Segregation Principle
+
  Where in the design the problem occurs
-LSP
-Ambas clases deberían de tener acceso solo a ciertas funciones de la interfaz heredada. InventoryButton no debería poder acceder a OnDrag, InventoryItemSlot no debería poder acceder a OnClick.
-ISP
-La interfaz IUIElement tiene demasiadas responsabilidades (drag, click y hover) 
-Refactor
-using System;
-public interface IClickable
-{
-    void OnClick();
-}
-public interface IHoverable
-{
-    void OnHover();
-}
-public interface IDragable
-{
-    void OnDrag();
-}
-public class InventoryButton : IClickable, IHoverable
-{
-    public void OnClick()
-    {
-        Console.WriteLine("Inventory button clicked");
-    }
-
-
-    public void OnHover()
-    {
-        Console.WriteLine("Inventory button hover");
-    }
-}
-
-
-public class InventoryItemSlot : IHoverable, IDragable
-{
-    public void OnHover()
-    {
-        Console.WriteLine("Item slot hover");
-    }
-
-
-    public void OnDrag()
-    {
-        Console.WriteLine("Dragging item slot");
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+LSP: Ambas clases deberían de tener acceso solo a ciertas funciones de la interfaz heredada. InventoryButton no debería poder acceder a OnDrag, InventoryItemSlot no debería poder acceder a OnClick.
+ISP: La interfaz IUIElement tiene demasiadas responsabilidades (drag, click y hover) 
 
 Justification
 Se ha separado cada responsabilidad de IUIElement en 3 interfaces separadas: IClickable, IDragable y IHoverable con sus respectivas funciones

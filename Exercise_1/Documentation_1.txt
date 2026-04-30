@@ -1,60 +1,11 @@
 ﻿Which SOLID principles are being violated?
 1. Single Responsibility Principle
 2. Open/Close Principle
+
  Where in the design the problem occurs
-SRP
-la clase matchSummary tiene demasiadas responsabilidades/ se encarga de hacer demasiadas cosas (guardar datos, calcular performance, printear summary y exportar resultados)
-OCP
-Cada vez que quieras añadir un nuevo método de export has de modificar la clase original matchSummary
-Refactor
-using System;
+SRP: la clase matchSummary tiene demasiadas responsabilidades/ se encarga de hacer demasiadas cosas (guardar datos, calcular performance, printear summary y exportar resultados)
+OCP: Cada vez que quieras añadir un nuevo método de export has de modificar la clase original matchSummary
 
-
-public class MatchData
-{
-    public int Score { get; set; }
-    public int EnemiesKilled { get; set; }
-    public int TimePlayedInSeconds { get; set; }
-}
-
-
-public class PerformanceCalculator
-{
-    public float GetPerformance(MatchData matchData)
-    {
-        return matchData.Score / (float)(matchData.TimePlayedInSeconds + 1);
-    }
-}
-    
-public class Printer
-{
-    public string BuildSummaryText(MatchData matchData, PerformanceCalculator performanceCalculator)
-    {
-        return $"Score: {matchData.Score} | Kills: {matchData.EnemiesKilled} | Performance: {performanceCalculator.GetPerformance(matchData)}";
-    }
-}
-
-
-public interface IMatchExporter
-{
-    void Export(MatchData data);
-}
-
-
-public class JsonExporter : IMatchExporter
-{
-    public void Export(MatchData data) 
-    {
-        Console.WriteLine("Exporting match summary to JSON...");
-    } 
-}
-public class XmlExporter : IMatchExporter
-{
-    public void Export(MatchData data) 
-    {
-        Console.WriteLine("Exporting match summary to XML...");
-    }  
-}
 Justification
 matchSummary ahora es la clase matchData, que solo almacena información.
 Las variables pasan a ser propiedades para que no puedan ser modificadas.
