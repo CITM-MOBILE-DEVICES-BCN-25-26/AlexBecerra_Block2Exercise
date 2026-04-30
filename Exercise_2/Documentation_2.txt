@@ -1,0 +1,65 @@
+﻿Which SOLID principles are being violated?
+1. Open/Close Principle
+ Where in the design the problem occurs
+OCP
+Cada vez que quieras agregar una nueva habilidad has de añadir un nuevo case en el switch de la clase original SkillSystem.
+
+
+Refactor
+public interface ISkill
+{
+    public int ApplySkill(int baseDamage);
+}
+
+
+public class Fire: ISkill
+{
+    public int ApplySkill(int baseDamage)
+    {
+        return baseDamage + 10;
+    }
+}
+public class Ice : ISkill
+{
+    public int ApplySkill(int baseDamage)
+    {
+        return baseDamage + 5;
+    }
+}
+public class Poison : ISkill
+{
+    public int ApplySkill(int baseDamage)
+    {
+        return baseDamage + 2;
+    }
+}
+public class SkillSystem
+{
+    public int PerformSkill(ISkill iSkill, int baseDamage)
+    {
+       return iSkill.ApplySkill(baseDamage);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Justification
+Nueva interfaz ISkill con la función ApplySkill
+Cada case en el switch pasa a ser una clase individual que hereda de ISkill
+SkillSystem llama a la función ApplySkill en base al tipo de habilidad
+
+
+OCP: ahora para añadir nuevas habilidades solo hay que crear una clase nueva que herede de ISkill en vez de tener que modificar el switch de SkillSystem

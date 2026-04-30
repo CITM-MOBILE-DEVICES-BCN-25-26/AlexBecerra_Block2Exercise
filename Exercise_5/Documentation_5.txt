@@ -1,0 +1,78 @@
+﻿Which SOLID principles are being violated?
+1. Open/Close Principle
+2. Dependency Inversion Principle 
+ Where in the design the problem occurs
+OCP
+Si se quiere añadir una nueva recompensa hay que añadir más código en la cadena de else if de la clase RewardSystem
+DIP
+La clase RewardSystem no debería de depender de clases concretas como coin, item o unlockable ya que si se cambiase algo de estas clases podría afectar a RewardSystem. Debería de depender de una abstracción.
+
+
+Refactor
+using System;
+
+
+public class RewardSystem
+{
+    public void GiveReward(IReward reward)
+    {
+       reward.GiveReward();
+    }
+}
+public interface IReward
+{
+    public void GiveReward();
+}
+
+
+public class Coin: IReward
+{
+    public void GiveReward()
+    {
+        Console.WriteLine("Giving coins");
+    }
+}
+public class Item : IReward
+{
+    public void GiveReward()
+    {
+        Console.WriteLine("Giving item");
+    }
+}
+public class Unlockable : IReward
+{
+    public void GiveReward()
+    {
+        Console.WriteLine("Unlocking content");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Justification
+Nueva interfaz IReward con la función GiveReward
+Se crean clases individuales para Item, Coin y Unlockable que heredan de IReward
+RewardSystem ahora recibe una IReward en vez de una string
+
+
+OCP: Cada vez que se quiera añadir una nueva recompensa solo se ha de crear una clase que herede de IReward.
+DIP: Al tener una interfaz abstracta IReward, RewardSystem ahora funciona sin tener que conocer los detalles de implementación de cada recompensa

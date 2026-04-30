@@ -1,0 +1,78 @@
+﻿Which SOLID principles are being violated?
+1. Liskov Substitution Principle
+ Where in the design the problem occurs
+LSP
+La clase Wall hereda de GameEntity pero no debería de tener acceso a la función Move de esta.
+Refactor
+using System;
+
+
+public class GameEntity
+{
+   
+}
+public interface IMovable
+{
+    void Move();
+}
+public class Player : GameEntity, IMovable
+{
+    public void Move()
+    {
+        Console.WriteLine("Player moving");
+    }
+}
+
+
+public class Wall : GameEntity
+{
+   
+}
+
+
+public class MovementSystem
+{
+    public void MoveEntity(IMovable entity)
+    {
+        entity.Move();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Justification
+Se crea una nueva interfaz IMovable con la función Move, GameEntity ahora está vacía
+Las clases que sí deben poder moverse (como Player) ahora heredan también de IMovable, mientras que las que no (como Wall) solo heredan GameEntity
+MovementSystem ahora recibe un IMovable en la función MoveEntity, asegurando que solo los objetos con la interfaz IMovable se puedan mover
+
+
+LSP: Ahora cada clase tiene acceso únicamente a las funciones que necesita
